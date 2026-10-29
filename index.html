@@ -1,0 +1,729 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Artjom Tsernozjomov</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Artjom Tsernozjomov (Kentow) – game designer and gameplay prototyper. Howest DAE student looking for an internship, February–June 2027.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&family=Source+Sans+3:wght@400;600&display=swap">
+<style>
+/* Layout: home = full-bleed art header + an even 3x2 card grid; every card opens its own page built from the same template (title block, facts strip, main media, text + side panel, media sections). Images carry the colour, purple marks what you can click. */
+:root{
+  color-scheme: dark;
+  --bg:#131218;
+  --panel:#1c1a23;
+  --panel-2:#26232f;
+  --line:#2f2c3a;
+  --fg:#f3f1f8;
+  --soft:#d7d3e2;
+  --muted:#a29db3;
+  --accent:#a98bff;
+  --accent-strong:#8f6bff;
+  --accent-ink:#140f22;
+  --display:"Rubik", "Trebuchet MS", system-ui, sans-serif;
+  --body:"Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  --max:1180px;
+  --r:10px;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{transition:none!important}}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:1.06rem;line-height:1.6;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
+img,video{display:block;max-width:100%}
+a{color:inherit}
+h1,h2,h3{font-family:var(--display);line-height:1.12;margin:0;text-wrap:balance}
+p{margin:0}
+.wrap{max-width:var(--max);margin:0 auto;padding-left:max(20px, env(safe-area-inset-left,0px));padding-right:max(20px, env(safe-area-inset-right,0px))}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+.kicker{font-family:var(--display);font-weight:600;font-size:.95rem;color:var(--accent);letter-spacing:.01em}
+
+/* ---------- top bar ---------- */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgba(19,18,24,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.bar .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:12px}
+.bar .name{font-family:var(--display);font-weight:700;text-decoration:none;font-size:1.05rem;white-space:nowrap}
+.bar .name span{color:var(--accent)}
+.bar nav{display:flex;gap:22px;font-size:.98rem}
+.bar nav a{text-decoration:none;color:var(--muted)}
+.bar nav a:hover{color:var(--fg)}
+@media (max-width:480px){.bar nav{gap:14px;font-size:.92rem}.bar .name{font-size:.98rem}}
+@media (max-width:440px){.bar nav a:first-child{display:none}}
+.back{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-weight:600;color:var(--fg);background:var(--panel-2);border:1px solid var(--line);padding:7px 15px;border-radius:999px;font-size:.95rem;white-space:nowrap}
+.back:hover{border-color:var(--accent)}
+
+/* ---------- buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 18px;border-radius:999px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.05);color:var(--fg);text-decoration:none;font-weight:600;font-size:.98rem;font-family:inherit;cursor:pointer;transition:border-color .2s, background .2s}
+.btn:hover{border-color:var(--accent)}
+.btn.main{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.main:hover{background:#bba3ff}
+.row{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+
+/* ---------- hero ---------- */
+.hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line);background:#0e0d12}
+.hero .bg{position:absolute;inset:0;background:url("img/ga3-exam-master.jpg") center 40%/cover no-repeat}
+.hero .bg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg, rgba(14,12,20,.94) 0%, rgba(14,12,20,.78) 42%, rgba(14,12,20,.15) 100%), linear-gradient(0deg, rgba(19,18,24,1) 0%, rgba(19,18,24,0) 30%)}
+.hero .wrap{position:relative;padding-block:clamp(80px,12vw,150px) clamp(64px,9vw,110px)}
+.hero h1{font-size:clamp(2.4rem,6.6vw,4.6rem);font-weight:800;letter-spacing:-.015em;margin-top:10px}
+.hero .what{margin-top:12px;font-family:var(--display);font-weight:500;font-size:clamp(1.15rem,2.3vw,1.5rem);color:var(--soft)}
+.hero .lead{margin-top:16px;max-width:50ch;color:var(--soft);font-size:1.12rem}
+.hero .status{display:inline-flex;align-items:center;gap:10px;margin-top:22px;padding:7px 14px;border-radius:999px;background:rgba(169,139,255,.14);border:1px solid rgba(169,139,255,.35);font-weight:600;font-size:.95rem}
+.hero .status::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px rgba(169,139,255,.25)}
+.hero .row{margin-top:26px}
+.hero .credit{position:absolute;right:max(20px, env(safe-area-inset-right,0px));bottom:14px;font-size:.82rem;color:rgba(255,255,255,.55)}
+
+/* ---------- home ---------- */
+.home-sec{padding-block:clamp(56px,7vw,88px)}
+.sec-title{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:26px}
+.sec-title h2{font-size:clamp(1.7rem,3.2vw,2.3rem);font-weight:700}
+.sec-title p{color:var(--muted)}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+@media (max-width:920px){.cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:580px){.cards{grid-template-columns:1fr}}
+.card{display:flex;flex-direction:column;text-decoration:none;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;transition:transform .25s ease, border-color .25s ease, box-shadow .25s ease}
+.card:hover{transform:translateY(-4px);border-color:rgba(169,139,255,.6);box-shadow:0 14px 34px -18px rgba(143,107,255,.55)}
+.card .ph{position:relative;aspect-ratio:16/10;overflow:hidden;background:var(--panel-2)}
+.card .ph > img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+.card:hover .ph > img{transform:scale(1.04)}
+.card .mosaic{position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:2px;background:var(--panel)}
+.card .mosaic img{width:100%;height:100%;object-fit:cover}
+.card .body{display:flex;flex-direction:column;gap:6px;padding:16px 18px 18px;flex:1}
+.card .kicker{font-size:.85rem}
+.card h3{font-size:1.32rem;font-weight:700}
+.card p{color:var(--muted);font-size:.98rem}
+.card .go{margin-top:auto;padding-top:8px;font-weight:600;font-size:.92rem;color:var(--accent)}
+
+.about{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:clamp(28px,5vw,72px);align-items:start}
+@media (max-width:820px){.about{grid-template-columns:1fr}}
+.about .text{display:grid;gap:12px;color:var(--soft);max-width:62ch}
+.about .text strong{color:var(--fg)}
+.tools{display:grid;gap:18px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:22px}
+.tools h3{font-size:.98rem;font-weight:600;color:var(--accent);margin-bottom:4px}
+.tools p{color:var(--soft)}
+.contact{border-top:1px solid var(--line);padding-block:56px 70px;background:linear-gradient(180deg, rgba(143,107,255,.07), transparent 70%)}
+.contact .wrap{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:22px}
+.contact h2{font-size:clamp(1.6rem,3vw,2.2rem)}
+.contact .mail{font-size:1.2rem;font-weight:600;user-select:all}
+.fine{color:var(--muted);font-size:.85rem;margin-top:16px}
+
+/* ---------- project page template ---------- */
+.view{padding-bottom:90px}
+.p-head{padding-block:34px 26px}
+.p-head h1{font-size:clamp(2.1rem,5.4vw,3.6rem);font-weight:800;letter-spacing:-.01em;margin-top:6px}
+.p-head .sub{margin-top:12px;font-size:1.2rem;color:var(--soft);max-width:60ch}
+.facts{display:flex;flex-wrap:wrap;gap:0;margin-top:22px;border:1px solid var(--line);border-radius:var(--r);background:var(--panel);overflow:hidden}
+.facts div{flex:1 1 150px;padding:12px 18px;border-right:1px solid var(--line)}
+.facts div:last-child{border-right:0}
+.facts dt{font-size:.82rem;color:var(--muted);font-weight:600}
+.facts dd{margin:2px 0 0;font-weight:600}
+@media (max-width:600px){.facts div{flex-basis:50%;border-bottom:1px solid var(--line)}}
+.facts dl{display:contents}
+.context{margin-top:18px;display:inline-flex;gap:10px;align-items:baseline;color:var(--soft);font-size:1.02rem;max-width:70ch}
+.context::before{content:"";flex:none;width:8px;height:8px;border-radius:50%;background:var(--accent);transform:translateY(-1px)}
+.jam .context{margin-top:10px}
+.video{position:relative;display:block;border-radius:var(--r);overflow:hidden;aspect-ratio:16/9;background:#000;text-decoration:none;max-width:100%}
+.video img{width:100%;height:100%;object-fit:cover;opacity:.8;transition:opacity .25s, transform .5s}
+.video:hover img{opacity:.95;transform:scale(1.015)}
+.video .play{position:absolute;inset:0;display:grid;place-items:center}
+.video .play span{display:flex;align-items:center;gap:12px;background:rgba(14,12,20,.8);padding:12px 22px 12px 12px;border-radius:999px;font-weight:600;font-size:1.05rem;border:1px solid rgba(169,139,255,.4)}
+.video .play span::before{content:"";width:40px;height:40px;border-radius:50%;background:var(--accent) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23140f22' d='M9 6.5v11l9-5.5z'/%3E%3C/svg%3E") center/22px no-repeat}
+.cols{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:clamp(24px,4vw,60px);margin-top:40px;align-items:start}
+@media (max-width:860px){.cols{grid-template-columns:1fr}}
+.prose{display:grid;gap:14px;color:var(--soft);max-width:66ch}
+.prose h2{font-size:1.4rem;color:var(--fg);margin-top:12px}
+.prose strong{color:var(--fg)}
+.prose ul{margin:0;padding-left:1.15em;display:grid;gap:8px}
+.prose li::marker{color:var(--accent)}
+.prose a{color:var(--accent)}
+.side{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:22px;display:grid;gap:12px}
+.side h3{font-size:1.05rem}
+.side p{color:var(--muted);font-size:.96rem}
+.section{margin-top:64px}
+.section-head{display:grid;gap:6px;margin-bottom:20px;max-width:70ch}
+.section-head h2{font-size:clamp(1.45rem,2.7vw,1.9rem)}
+.section-head p{color:var(--muted)}
+
+/* galleries */
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:700px){.grid3{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:480px){.grid3,.grid2{grid-template-columns:1fr}}
+.shot{padding:0;border:0;background:var(--panel);border-radius:8px;overflow:hidden;cursor:zoom-in;display:block;width:100%;aspect-ratio:16/10;max-width:100%}
+.shot img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
+.shot:hover img{transform:scale(1.035)}
+figure{margin:0}
+figcaption{font-size:.92rem;color:var(--muted);margin-top:8px}
+figcaption b{color:var(--fg);font-weight:600}
+
+/* survey levels */
+.levels{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 18px}
+@media (max-width:640px){.levels{grid-template-columns:1fr}}
+.level .tag{display:block;margin-top:12px;color:var(--accent);font-weight:600;font-size:.88rem}
+.level h3{font-size:1.18rem;margin-top:2px}
+.level p{color:var(--muted);font-size:.98rem;margin-top:2px}
+
+/* loops */
+.loops{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+@media (max-width:760px){.loops{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.loop video{width:100%;aspect-ratio:5/4;object-fit:cover;border-radius:8px;background:#3d3d3d}
+.loop figcaption{color:var(--fg);font-weight:600}
+.feature-loop{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:clamp(18px,3vw,36px);align-items:center;margin-bottom:22px}
+@media (max-width:760px){.feature-loop{grid-template-columns:1fr}}
+.feature-loop video{width:100%;aspect-ratio:1100/620;object-fit:cover;border-radius:var(--r);background:#2a2230}
+
+/* prototypes */
+.stats{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
+.stats div{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:12px 18px;min-width:120px}
+.stats b{display:block;font-family:var(--display);font-size:1.7rem;color:var(--accent);line-height:1.1}
+.stats span{color:var(--muted);font-size:.92rem}
+.round{padding-block:44px;border-top:1px solid var(--line)}
+.round:first-of-type{border-top:0;padding-top:20px}
+.round-top{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:clamp(16px,4vw,56px);align-items:start;margin-bottom:22px}
+@media (max-width:760px){.round-top{grid-template-columns:1fr}}
+.round-top h2{font-size:1.6rem;margin-top:4px}
+.round-top .when{color:var(--muted);font-size:.95rem;margin-top:4px}
+.round-text{display:grid;gap:12px;color:var(--soft);max-width:64ch}
+.round-text strong{color:var(--fg)}
+.round.final{background:linear-gradient(135deg, rgba(143,107,255,.12), rgba(143,107,255,.02) 60%);border:1px solid rgba(169,139,255,.3);border-radius:14px;padding:clamp(18px,3vw,32px);margin-top:12px}
+.vgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.vgrid.cols3{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (max-width:860px){.vgrid,.vgrid.cols3{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.vcard{display:block;text-decoration:none;min-width:0}
+.vcard .th{position:relative;aspect-ratio:16/9;border-radius:8px;overflow:hidden;background:var(--panel);border:1px solid var(--line)}
+.vcard.iter .th{border-color:rgba(169,139,255,.65);box-shadow:0 0 0 1px rgba(169,139,255,.25)}
+.vcard .th img{width:100%;height:100%;object-fit:cover;transition:transform .35s}
+.vcard:hover .th img{transform:scale(1.05)}
+.vcard .th::after{content:"";position:absolute;right:10px;bottom:10px;width:32px;height:32px;border-radius:50%;background:rgba(14,12,20,.78) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23f3f1f8' d='M9 6.5v11l9-5.5z'/%3E%3C/svg%3E") center/18px no-repeat;transition:background-color .2s}
+.vcard:hover .th::after{background-color:var(--accent-strong)}
+.vcard .th em{position:absolute;left:8px;top:8px;font-style:normal;font-weight:600;font-size:.8rem;background:var(--accent);color:var(--accent-ink);padding:2px 9px;border-radius:999px}
+.vcard b{display:block;margin-top:8px;font-weight:600}
+.vcard span{font-size:.9rem;color:var(--muted)}
+
+/* jams */
+.jam{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:clamp(22px,4vw,48px);align-items:start;padding-block:40px;border-top:1px solid var(--line)}
+.jam:first-of-type{border-top:0;padding-top:8px}
+@media (max-width:820px){.jam{grid-template-columns:1fr}}
+.jam h2{font-size:1.8rem;margin-top:4px}
+.jam .prose{margin-top:12px}
+.jam .btn{margin-top:20px}
+.jam .gal{display:grid;gap:10px}
+
+/* art */
+.year{margin-top:56px}
+.year > h2{font-size:clamp(1.5rem,2.8vw,2rem);display:flex;align-items:center;gap:14px}
+.year > h2::after{content:"";flex:1;height:1px;background:var(--line)}
+.piece{margin-top:30px}
+.piece-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 14px;margin-bottom:12px}
+.piece-head h3{font-size:1.3rem}
+.piece-head span{color:var(--accent);font-weight:600;font-size:.95rem}
+.piece-head p{flex-basis:100%;color:var(--muted)}
+
+/* lightbox */
+.lb{position:fixed;inset:0;z-index:50;background:rgba(10,9,14,.95);display:grid;place-items:center;padding:max(16px, env(safe-area-inset-top,0px)) max(16px, env(safe-area-inset-right,0px)) max(16px, env(safe-area-inset-bottom,0px)) max(16px, env(safe-area-inset-left,0px));cursor:zoom-out}
+.lb img{max-width:100%;max-height:86vh;border-radius:8px}
+.lb button{position:absolute;top:calc(14px + env(safe-area-inset-top,0px));right:calc(14px + env(safe-area-inset-right,0px));background:var(--panel-2);border:1px solid var(--line);color:var(--fg);border-radius:999px;padding:8px 16px;font:600 .95rem var(--body);cursor:pointer}
+.lb p{position:absolute;left:0;right:0;bottom:calc(14px + env(safe-area-inset-bottom,0px));text-align:center;color:var(--muted);font-size:.92rem;padding-inline:16px}
+
+.player{position:fixed;inset:0;z-index:60;background:rgba(10,9,14,.92);display:grid;place-items:center;padding:max(16px, env(safe-area-inset-top,0px)) max(16px, env(safe-area-inset-right,0px)) max(16px, env(safe-area-inset-bottom,0px)) max(16px, env(safe-area-inset-left,0px))}
+.player-box{width:min(1100px,100%)}
+.player-top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px}
+.player-top b{font-family:var(--display);font-size:1.1rem}
+.player-top button{background:var(--panel-2);border:1px solid var(--line);color:var(--fg);border-radius:999px;padding:8px 16px;font:600 .95rem var(--body);cursor:pointer}
+.player-top button:hover{border-color:var(--accent)}
+.player-frame{position:relative;aspect-ratio:16/9;border-radius:var(--r);overflow:hidden;background:#000;border:1px solid var(--line)}
+.player-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.player-alt{margin-top:10px;color:var(--muted);font-size:.92rem;text-align:center}
+.player-alt a{color:var(--accent)}
+.next{margin-top:72px;padding-top:28px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:14px}
+.next a.nx{text-decoration:none;display:grid;gap:2px;text-align:right;margin-left:auto}
+.next a.nx span{color:var(--muted);font-size:.9rem}
+.next a.nx b{font-family:var(--display);font-size:1.25rem;color:var(--fg)}
+.next a.nx:hover b{color:var(--accent)}
+</style>
+</head>
+<body>
+
+
+<!-- ================= HOME ================= -->
+<div id="home" data-view>
+  <header class="bar">
+    <div class="wrap">
+      <a class="name" href="#home">Artjom <span>Tsernozjomov</span></a>
+      <nav aria-label="Main"><a href="#projects-list">Projects</a><a href="#about-me">About</a><a href="#contact-me">Contact</a></nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="bg" role="img" aria-label="My stylized village environment from Game Art 3"></div>
+    <div class="wrap">
+      <span class="kicker">Kentow</span>
+      <h1>Artjom Tsernozjomov</h1>
+      <p class="what">Game Designer &amp; Gameplay Prototyper</p>
+      <p class="lead">Final-year Independent Game Production student at Howest DAE in Kortrijk, Belgium.</p>
+      <span class="status">Looking for an internship · February – June 2027</span>
+      <div class="row">
+        <a class="btn main" href="#projects-list">See my projects</a>
+        <a class="btn" href="https://kentow.itch.io" target="_blank" rel="noopener">itch.io</a>
+        <a class="btn" href="https://www.linkedin.com/in/artjom-tsernozjomov/" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+    <span class="credit">Background: my Game Art 3 environment</span>
+  </section>
+
+  <section class="home-sec" id="projects-list">
+    <div class="wrap">
+      <div class="sec-title"><h2>Projects</h2><p>Click a project to see more</p></div>
+      <div class="cards">
+        <a class="card" href="#mirror-hop">
+          <div class="ph"><img src="img/mh-cover.jpg" alt="Mirror Hop title screen" style="object-position:center 18%"></div>
+          <div class="body"><span class="kicker">Solo · Game Design 3</span><h3>Mirror Hop</h3><p>A 3D platformer where mirrors and your own reflection are your tools.</p><span class="go">Open project →</span></div>
+        </a>
+        <a class="card" href="#prototypes">
+          <div class="ph"><div class="mosaic"><img src="img/yt/yt-H2SdtKU0hGc.jpg" alt=""><img src="img/yt/yt-aLydhUKkiMs.jpg" alt=""><img src="img/yt/yt-SjfXJ7ZDDw0.jpg" alt=""><img src="img/mh/mh-clone.jpg" alt=""></div></div>
+          <div class="body"><span class="kicker">Rapid prototyping · Game Design 3</span><h3>Prototypes</h3><p>11 ideas and 18 prototype videos from one semester, ending in Mirror Hop.</p><span class="go">Open project →</span></div>
+        </a>
+        <a class="card" href="#survey-game">
+          <div class="ph"><img src="img/sv-cover.jpg" alt="The frog wizard on a clay-style magical desk"></div>
+          <div class="body"><span class="kicker">Client project · Team of 4</span><h3>Untitled Survey Game</h3><p>A sustainability survey for office workers, turned into small minigames.</p><span class="go">Open project →</span></div>
+        </a>
+        <a class="card" href="#monster-mines">
+          <div class="ph"><img src="img/mm-5.jpg" alt="A mine exploding in a dark bunker"></div>
+          <div class="body"><span class="kicker">Game jam · Team of 5</span><h3>Monster Mines</h3><p>Clear a bunker full of mines and poison gas. You're not alone down there.</p><span class="go">Open project →</span></div>
+        </a>
+        <a class="card" href="#game-jams">
+          <div class="ph"><img src="img/sb-3.jpg" alt="A tall stacked sandwich from SpreadBread"></div>
+          <div class="body"><span class="kicker">Game jams · Teams of 4</span><h3>SpreadBread &amp; Wisp</h3><p>Two smaller jam games: stacking sandwiches and a tree spirit.</p><span class="go">Open project →</span></div>
+        </a>
+        <a class="card" href="#game-art">
+          <div class="ph"><img src="img/ga3-fluffy-final.jpg" alt="Fluffy Nature environment with autumn trees and a river"></div>
+          <div class="body"><span class="kicker">3D &amp; 2D art · Years 1–2</span><h3>Game Art</h3><p>Stylized environments, a kart, a bazaar diorama, a weapon and 2D characters.</p><span class="go">Open project →</span></div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="home-sec" id="about-me" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-title"><h2>About me</h2></div>
+      <div class="about">
+        <div class="text">
+          <p>I'm Artjom, a final-year student in Independent Game Production at Howest Digital Arts and Entertainment in Kortrijk, Belgium.</p>
+          <p>I'm most interested in game design, gameplay mechanics and prototyping in Unity. In the Game Art courses I also learned 3D modeling, texturing and animation.</p>
+          <p>From <strong>February to June 2027</strong> I'm looking for an internship in game design or gameplay development. I speak English and Russian.</p>
+        </div>
+        <div class="tools">
+          <div><h3>Design &amp; engine</h3><p>Unity, C#, Miro</p></div>
+          <div><h3>Art</h3><p>Blender, Maya, Substance Painter</p></div>
+          <div><h3>Other</h3><p>Git, Perforce, FMOD (basic)</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="contact" id="contact-me">
+    <div class="wrap">
+      <div>
+        <span class="kicker">Contact</span>
+        <h2 style="margin-top:6px">Let's talk</h2>
+        <div class="row" style="margin-top:12px"><span class="mail" id="mail">chernozemov96@gmail.com</span><button class="btn" type="button" id="copy">Copy</button></div>
+      </div>
+      <div class="row">
+        <a class="btn" href="https://www.linkedin.com/in/artjom-tsernozjomov/" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn" href="https://kentow.itch.io" target="_blank" rel="noopener">itch.io</a>
+      </div>
+    </div>
+    <div class="wrap"><p class="fine">© 2026 Artjom Tsernozjomov</p></div>
+  </footer>
+</div>
+
+<!-- ================= MIRROR HOP ================= -->
+<article class="view" id="mirror-hop" data-view hidden>
+  <header class="bar"><div class="wrap"><a class="back" href="#projects-list">← All projects</a><a class="name" href="#home">Artjom <span>Tsernozjomov</span></a></div></header>
+  <div class="wrap">
+    <div class="p-head">
+      <span class="kicker">Solo project · Game Design 3</span>
+      <h1>Mirror Hop</h1>
+      <p class="sub">Jump the platforms, jump the mirrors. A 3D platformer where you use mirrors and your own reflection to get through the level.</p>
+      <p class="context">A solo project for the Game Design 3 course at Howest DAE in 2025, made in Unity.</p>
+    </div>
+    <a class="video" href="https://youtu.be/iPENwSbQ5hI" target="_blank" rel="noopener" data-yt="iPENwSbQ5hI"><img src="img/mh-cover.jpg" alt=""><div class="play"><span>Watch the trailer</span></div></a>
+
+    <div class="cols">
+      <div class="prose">
+        <p>Each level is split over two worlds: the normal one and the mirror world. Platforms, paths and enemies exist in only one of them, so the full route only appears when you switch between both.</p>
+        <h2>Three ways into the mirror world</h2>
+        <ul>
+          <li><strong>Enter a mirror.</strong> Static mirrors work as gates that put you in the other world.</li>
+          <li><strong>Swap with your reflection.</strong> Interact with your reflection in a mirror and you trade places with it.</li>
+          <li><strong>Launch a clone.</strong> Hold to aim, release to send a mirror clone forward, then swap with it to land on a platform in the other world. While you aim, time slows down.</li>
+        </ul>
+        <h2>Movement</h2>
+        <ul>
+          <li>Double jump, with a change of direction after the first jump.</li>
+          <li>One dash, only in the air.</li>
+          <li>A wall jump that pushes you away from the wall, so you can't climb the same wall.</li>
+        </ul>
+      </div>
+      <aside class="side">
+        <h3>What I did</h3>
+        <p>All the design, the mechanics prototyping and programming, and some of the character animation. The level art in the final build comes from an asset store pack.</p>
+        <a class="btn main" href="https://kentow.itch.io/mirror-hop" target="_blank" rel="noopener">Download on itch.io</a>
+        <a class="btn" href="#prototypes">See how it started</a>
+      </aside>
+    </div>
+
+    <div class="section">
+      <div class="section-head"><h2>Screenshots</h2><p>From the final build. The level art uses an asset store pack; the mechanics, design and character animation are mine.</p></div>
+      <div class="grid3">
+        <button class="shot" type="button" data-full="img/mirrorhop-bridges.jpg"><img src="img/mirrorhop-bridges.jpg" alt="Floating islands linked by bridges to the finish flag" loading="lazy"></button>
+        <button class="shot" type="button" data-full="img/mh-1.jpg"><img src="img/mh-1.jpg" alt="The character at the start of the level" loading="lazy"></button>
+        <button class="shot" type="button" data-full="img/mh-3.jpg"><img src="img/mh-3.jpg" alt="A mirror gate in a cliff wall" loading="lazy"></button>
+        <button class="shot" type="button" data-full="img/mirrorhop-islands.jpg"><img src="img/mirrorhop-islands.jpg" alt="Rocky islands above the sea" loading="lazy"></button>
+        <button class="shot" type="button" data-full="img/mirrorhop-character.jpg"><img src="img/mirrorhop-character.jpg" alt="The character near the start gate" loading="lazy"></button>
+        <button class="shot" type="button" data-full="img/mirrorhop-start.jpg"><img src="img/mirrorhop-start.jpg" alt="The start area of the level" loading="lazy"></button>
+      </div>
+    </div>
+
+    <nav class="next" aria-label="Next project"><a class="back" href="#projects-list">← All projects</a><a class="nx" href="#prototypes"><span>Next project</span><b>Prototypes →</b></a></nav>
+  </div>
+</article>
+
+<!-- ================= PROTOTYPES ================= -->
+<article class="view" id="prototypes" data-view hidden>
+  <header class="bar"><div class="wrap"><a class="back" href="#projects-list">← All projects</a><a class="name" href="#home">Artjom <span>Tsernozjomov</span></a></div></header>
+  <div class="wrap">
+    <div class="p-head">
+      <span class="kicker">Rapid prototyping · Game Design 3</span>
+      <h1>From prototypes to Mirror Hop</h1>
+      <p class="sub">In Game Design 3 I made new proofs of concept every few weeks, kept the ones that were fun, and iterated on them. These are all my prototypes from that semester, in order. Click one to watch it.</p>
+      <div class="stats"><div><b>4</b><span>rounds</span></div><div><b>11</b><span>ideas</span></div><div><b>18</b><span>prototype videos</span></div><div><b>1</b><span>game</span></div></div>
+    </div>
+
+    <section class="round">
+      <div class="round-top">
+        <div><span class="kicker">Round 1</span><h2>UFO, bird or kraken?</h2><p class="when">February 2025</p></div>
+        <div class="round-text"><p>Three quick proofs of concept. I took the bird further into <strong>Annoying Birdie</strong>: you fly around, pick things up and drop them. The first idea was breaking people's stuff by dropping it from a height; later it became dropping trash on people to make them mad.</p></div>
+      </div>
+      <div class="vgrid "><a class="vcard" href="https://youtu.be/dEEfz-Mc3Xo" target="_blank" rel="noopener" data-yt="dEEfz-Mc3Xo"><div class="th"><img src="img/yt/yt-dEEfz-Mc3Xo.jpg" alt="" loading="lazy"></div><b>UFO</b><span>Proof of concept</span></a><a class="vcard" href="https://youtu.be/_AnwzA_KlX0" target="_blank" rel="noopener" data-yt="_AnwzA_KlX0"><div class="th"><img src="img/yt/yt-_AnwzA_KlX0.jpg" alt="" loading="lazy"></div><b>Bird</b><span>Proof of concept</span></a><a class="vcard" href="https://youtu.be/aLydhUKkiMs" target="_blank" rel="noopener" data-yt="aLydhUKkiMs"><div class="th"><img src="img/yt/yt-aLydhUKkiMs.jpg" alt="" loading="lazy"></div><b>Kraken</b><span>Proof of concept</span></a><a class="vcard iter" href="https://youtu.be/SjfXJ7ZDDw0" target="_blank" rel="noopener" data-yt="SjfXJ7ZDDw0"><div class="th"><img src="img/yt/yt-SjfXJ7ZDDw0.jpg" alt="" loading="lazy"><em>Developed further</em></div><b>Annoying Birdie</b></a></div>
+    </section>
+
+    <section class="round">
+      <div class="round-top">
+        <div><span class="kicker">Round 2</span><h2>A sauna game</h2><p class="when">March 2025</p></div>
+        <div class="round-text"><p>Two new ideas: a sauna and Light for Ships. The sauna, <strong>Ban'ka</strong>, got two iterations. You collect wood and feed the fire, but if the sauna gets too hot you take damage. Drink beer, or pour it on the fire, to raise satisfaction.</p></div>
+      </div>
+      <div class="vgrid "><a class="vcard" href="https://youtu.be/UtmxWxFJSZ8" target="_blank" rel="noopener" data-yt="UtmxWxFJSZ8"><div class="th"><img src="img/yt/yt-UtmxWxFJSZ8.jpg" alt="" loading="lazy"></div><b>Sauna</b><span>Proof of concept</span></a><a class="vcard" href="https://youtu.be/68dGhRaHqYk" target="_blank" rel="noopener" data-yt="68dGhRaHqYk"><div class="th"><img src="img/yt/yt-68dGhRaHqYk.jpg" alt="" loading="lazy"></div><b>Light for Ships</b><span>Proof of concept</span></a><a class="vcard iter" href="https://youtu.be/i5YkJnxlfLA" target="_blank" rel="noopener" data-yt="i5YkJnxlfLA"><div class="th"><img src="img/yt/yt-i5YkJnxlfLA.jpg" alt="" loading="lazy"><em>Iteration 1</em></div><b>Sauna</b></a><a class="vcard iter" href="https://youtu.be/42F0Crh4kE8" target="_blank" rel="noopener" data-yt="42F0Crh4kE8"><div class="th"><img src="img/yt/yt-42F0Crh4kE8.jpg" alt="" loading="lazy"><em>Iteration 2</em></div><b>Sauna</b></a></div>
+    </section>
+
+    <section class="round">
+      <div class="round-top">
+        <div><span class="kicker">Round 3</span><h2>Shoplifting, ghost and slash</h2><p class="when">March 2025</p></div>
+        <div class="round-text"><p>Three more prototypes. The slash mechanic got a second version.</p></div>
+      </div>
+      <div class="vgrid "><a class="vcard" href="https://youtu.be/H2SdtKU0hGc" target="_blank" rel="noopener" data-yt="H2SdtKU0hGc"><div class="th"><img src="img/yt/yt-H2SdtKU0hGc.jpg" alt="" loading="lazy"></div><b>Shoplifting</b><span>Prototype</span></a><a class="vcard" href="https://youtu.be/Bo9gGoqLrNE" target="_blank" rel="noopener" data-yt="Bo9gGoqLrNE"><div class="th"><img src="img/yt/yt-Bo9gGoqLrNE.jpg" alt="" loading="lazy"></div><b>Ghost</b><span>Prototype</span></a><a class="vcard" href="https://youtu.be/9hx9BAUzd2E" target="_blank" rel="noopener" data-yt="9hx9BAUzd2E"><div class="th"><img src="img/yt/yt-9hx9BAUzd2E.jpg" alt="" loading="lazy"></div><b>Slash</b><span>Prototype</span></a><a class="vcard iter" href="https://youtu.be/coIB07b3V0c" target="_blank" rel="noopener" data-yt="coIB07b3V0c"><div class="th"><img src="img/yt/yt-coIB07b3V0c.jpg" alt="" loading="lazy"><em>Version 2</em></div><b>Slash</b></a></div>
+    </section>
+
+    <section class="round final">
+      <div class="round-top">
+        <div><span class="kicker">Round 4 · became Mirror Hop</span><h2>Clones and mirrors</h2><p class="when">April 2025</p></div>
+        <div class="round-text"><p>Clone teleport, puppet master and a mirror dimension. I kept playing with the clone teleport just for fun, and the mirror dimension had the most potential for level design. I iterated on the mirror dimension three times and combined it with the clone into <strong>Mirror Hop</strong>.</p><div class="row" style="margin-top:6px"><a class="btn main" href="#mirror-hop">See Mirror Hop</a></div></div>
+      </div>
+      <div class="vgrid cols3"><a class="vcard" href="https://youtu.be/7n1ghQwGEs8" target="_blank" rel="noopener" data-yt="7n1ghQwGEs8"><div class="th"><img src="img/yt/yt-7n1ghQwGEs8.jpg" alt="" loading="lazy"></div><b>Clone teleport</b><span>Prototype</span></a><a class="vcard" href="https://youtu.be/rsNRSdRAKdM" target="_blank" rel="noopener" data-yt="rsNRSdRAKdM"><div class="th"><img src="img/yt/yt-rsNRSdRAKdM.jpg" alt="" loading="lazy"></div><b>Puppet master</b><span>Prototype</span></a><a class="vcard" href="https://youtu.be/PEyg3xH7bVM" target="_blank" rel="noopener" data-yt="PEyg3xH7bVM"><div class="th"><img src="img/yt/yt-PEyg3xH7bVM.jpg" alt="" loading="lazy"></div><b>Mirror dimension</b><span>Prototype</span></a><a class="vcard iter" href="https://youtu.be/gC1fQEd5N1g" target="_blank" rel="noopener" data-yt="gC1fQEd5N1g"><div class="th"><img src="img/yt/yt-gC1fQEd5N1g.jpg" alt="" loading="lazy"><em>Iteration 1</em></div><b>Mirror dimension</b></a><a class="vcard iter" href="https://youtu.be/2xacEFCE1cM" target="_blank" rel="noopener" data-yt="2xacEFCE1cM"><div class="th"><img src="img/yt/yt-2xacEFCE1cM.jpg" alt="" loading="lazy"><em>Iteration 2</em></div><b>Mirror dimension</b></a><a class="vcard iter" href="https://youtu.be/LCVZWzE8m8s" target="_blank" rel="noopener" data-yt="LCVZWzE8m8s"><div class="th"><img src="img/yt/yt-LCVZWzE8m8s.jpg" alt="" loading="lazy"><em>Iteration 3</em></div><b>Mirror dimension</b></a></div>
+    </section>
+
+    <div class="row" style="margin-top:28px"><a class="btn" href="https://miro.com/app/board/uXjVIf2PGnc=/?share_link_id=93437665567" target="_blank" rel="noopener">Open my Miro board for this course</a></div>
+
+    <nav class="next" aria-label="Next project"><a class="back" href="#projects-list">← All projects</a><a class="nx" href="#survey-game"><span>Next project</span><b>Untitled Survey Game →</b></a></nav>
+  </div>
+</article>
+
+<!-- ================= SURVEY GAME ================= -->
+<article class="view" id="survey-game" data-view hidden>
+  <header class="bar"><div class="wrap"><a class="back" href="#projects-list">← All projects</a><a class="name" href="#home">Artjom <span>Tsernozjomov</span></a></div></header>
+  <div class="wrap">
+    <div class="p-head">
+      <span class="kicker">Client project · Applied Games</span>
+      <h1>Untitled Survey Game</h1>
+      <p class="sub">A survey has never been this magical. You play a tiny frog wizard on an office desk, and every survey question is a small minigame.</p>
+      <p class="context">Made for the client Change Gamer in the Applied Games course (2025), together with a team of 4 students. Built in Unity for the browser.</p>
+    </div>
+    <a class="video" href="https://youtu.be/aXwoo6rZ1Ms" target="_blank" rel="noopener" data-yt="aXwoo6rZ1Ms"><img src="img/sv-title.jpg" alt=""><div class="play"><span>Watch the trailer</span></div></a>
+
+    <div class="cols">
+      <div class="prose">
+        <p><a href="https://www.changegamer.tech" target="_blank" rel="noopener">Change Gamer</a> makes sustainability (ESG) plans for companies based on what their employees think. They asked for a game to replace a boring survey: employees play it for about 5 minutes a day, for 5 days.</p>
+        <p>The players are office workers who often never play games, on a work PC in the browser. So everything is controlled with the mouse, there is very little UI, and each minigame has a short tutorial.</p>
+      </div>
+      <aside class="side">
+        <h3>What I did</h3>
+        <p>Minigame and level design. I also modeled and animated the frog wizard and the small frogs.</p>
+        <a class="btn main" href="https://micxuz.itch.io/sustainabilityesg" target="_blank" rel="noopener">Play in browser</a>
+      </aside>
+    </div>
+
+    <div class="section">
+      <div class="section-head"><h2>One minigame per question type</h2><p>Each type of survey question got its own level, all on the same desk.</p></div>
+      <div class="levels">
+        <div class="level"><button class="shot" type="button" data-full="img/sv-sorting.jpg"><img src="img/sv-sorting.jpg" alt="Small frogs placed on a staircase to rank meal types" loading="lazy"></button><span class="tag">Ranking questions</span><h3>Frog sorting</h3><p>Drag the frogs onto the stairs in order of importance.</p></div>
+        <div class="level"><button class="shot" type="button" data-full="img/sv-fairy.jpg"><img src="img/sv-fairy.jpg" alt="Fairies being guided into two glowing circles" loading="lazy"></button><span class="tag">Two-option questions</span><h3>Fairy level</h3><p>Bring fairies into one of two circles to split the answers.</p></div>
+        <div class="level"><button class="shot" type="button" data-full="img/sv-potion.jpg"><img src="img/sv-potion.jpg" alt="A cauldron with potion bottles as answer options" loading="lazy"></button><span class="tag">Multiple choice</span><h3>Potion brewing</h3><p>Put your answers into the cauldron as ingredients, then stir to submit.</p></div>
+        <div class="level"><button class="shot" type="button" data-full="img/sv-buttons.jpg"><img src="img/sv-buttons.jpg" alt="Floor buttons to set a number" loading="lazy"></button><span class="tag">Number questions</span><h3>Button level</h3><p>Step on the plus and minus buttons to set a number, then confirm.</p></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-head"><h2>The frogs</h2><p>I modeled and animated the frog wizard you play as, and the small frogs you sort in the ranking level.</p></div>
+      <div class="feature-loop">
+        <video src="media/small-frogs.mp4" poster="media/small-frogs.jpg" autoplay muted loop playsinline aria-label="Small frogs being sorted onto the stairs in the game"></video>
+        <div class="prose"><h2 style="margin-top:0">The small frogs</h2><p>In the ranking level, each answer is a small frog. You pick one up and put it on a step of the staircase to rank it.</p></div>
+      </div>
+      <div class="loops">
+        <figure class="loop"><video src="media/frogwalk.mp4" poster="media/frogwalk.jpg" autoplay muted loop playsinline aria-label="Frog walk cycle"></video><figcaption>Walk</figcaption></figure>
+        <figure class="loop"><video src="media/frogidle.mp4" poster="media/frogidle.jpg" autoplay muted loop playsinline aria-label="Frog idle"></video><figcaption>Idle</figcaption></figure>
+        <figure class="loop"><video src="media/frogpickup.mp4" poster="media/frogpickup.jpg" autoplay muted loop playsinline aria-label="Frog picking up a jar"></video><figcaption>Pick up</figcaption></figure>
+        <figure class="loop"><video src="media/frogwalkwithobj.mp4" poster="media/frogwalkwithobj.jpg" autoplay muted loop playsinline aria-label="Frog carrying a jar"></video><figcaption>Carry</figcaption></figure>
+        <figure class="loop"><video src="media/frogputdown.mp4" poster="media/frogputdown.jpg" autoplay muted loop playsinline aria-label="Frog putting a jar down"></video><figcaption>Put down</figcaption></figure>
+        <figure class="loop"><video src="media/frogdoor.mp4" poster="media/frogdoor.jpg" autoplay muted loop playsinline aria-label="Frog walking through a door"></video><figcaption>Through a door</figcaption></figure>
+        <figure class="loop" style="grid-column:span 2"><video src="media/frogbreathe.mp4" poster="media/frogbreathe.jpg" autoplay muted loop playsinline aria-label="Frog breathing in the game scene" style="aspect-ratio:2.5/1"></video><figcaption>Breathing, in the game scene</figcaption></figure>
+      </div>
+    </div>
+
+    <nav class="next" aria-label="Next project"><a class="back" href="#projects-list">← All projects</a><a class="nx" href="#monster-mines"><span>Next project</span><b>Monster Mines →</b></a></nav>
+  </div>
+</article>
+
+<!-- ================= MONSTER MINES ================= -->
+<article class="view" id="monster-mines" data-view hidden>
+  <header class="bar"><div class="wrap"><a class="back" href="#projects-list">← All projects</a><a class="name" href="#home">Artjom <span>Tsernozjomov</span></a></div></header>
+  <div class="wrap">
+    <div class="p-head">
+      <span class="kicker">Game jam · Xbox Game Camp Belgium</span>
+      <h1>Monster Mines</h1>
+      <p class="sub">Clean up a bunker full of dangerous mines and poisonous gas. Sounds easy, right? But you're not alone down there.</p>
+      <p class="context">Made in 3 days at Xbox Game Camp Belgium 2026 with a team of 5, for the Minesweeper theme set by Xbox.</p>
+    </div>
+    <button class="shot" type="button" data-full="img/mm-1.jpg" style="aspect-ratio:16/9"><img src="img/mm-1.jpg" alt="A mine exploding in a bunker corridor"></button>
+
+    <div class="cols">
+      <div class="prose">
+                <p><strong>Game design:</strong> figuring out the whole game with the team, including what the player actually does with the mines.</p>
+        <p><strong>3D art and animation:</strong> I modeled, textured, rigged and animated the monster, and made the mines.</p>
+        <p><strong>Unity:</strong> I put it all together in Unity and triggered the monster's animations from code.</p>
+      </div>
+      <aside class="side">
+        <h3>Play it</h3>
+        <p>Windows download on itch.io.</p>
+        <a class="btn main" href="https://alice-vasilenko.itch.io/monstermines" target="_blank" rel="noopener">Download on itch.io</a>
+      </aside>
+    </div>
+
+    <div class="section">
+      <div class="section-head"><h2>Screenshots</h2></div>
+      <div class="grid2">
+        <button class="shot" type="button" data-full="img/mm-5.jpg"><img src="img/mm-5.jpg" alt="Explosion lighting up the bunker" loading="lazy"></button>
+        <button class="shot" type="button" data-full="img/mm-2.jpg"><img src="img/mm-2.jpg" alt="A mine with a green light" loading="lazy"></button>
+        <button class="shot" type="button" data-full="img/mm-4.jpg"><img src="img/mm-4.jpg" alt="Bunker hallway" loading="lazy"></button>
+        <button class="shot" type="button" data-full="img/mm-cover.jpg"><img src="img/mm-cover.jpg" alt="Monster Mines title" loading="lazy"></button>
+      </div>
+    </div>
+
+    <nav class="next" aria-label="Next project"><a class="back" href="#projects-list">← All projects</a><a class="nx" href="#game-jams"><span>Next project</span><b>SpreadBread &amp; Wisp →</b></a></nav>
+  </div>
+</article>
+
+<!-- ================= GAME JAMS ================= -->
+<article class="view" id="game-jams" data-view hidden>
+  <header class="bar"><div class="wrap"><a class="back" href="#projects-list">← All projects</a><a class="name" href="#home">Artjom <span>Tsernozjomov</span></a></div></header>
+  <div class="wrap">
+    <div class="p-head">
+      <span class="kicker">Game jams</span>
+      <h1>SpreadBread &amp; Wisp</h1>
+      <p class="sub">Two smaller jam games where I worked on programming.</p>
+    </div>
+
+    <section class="jam">
+      <div class="gal">
+        <button class="shot" type="button" data-full="img/sb-3.jpg"><img src="img/sb-3.jpg" alt="A tall stacked sandwich"></button>
+        <div class="grid2">
+          <button class="shot" type="button" data-full="img/sb-1.jpg"><img src="img/sb-1.jpg" alt="Stacking a sandwich" loading="lazy"></button>
+          <button class="shot" type="button" data-full="img/sb-2.jpg"><img src="img/sb-2.jpg" alt="Spreading sauce on bread" loading="lazy"></button>
+        </div>
+      </div>
+      <div>
+        <span class="kicker">Game jam</span>
+        <h2>SpreadBread</h2>
+        <p class="context">Made at Unwrap Jam 2025 with a team of 4, for the theme <em>Spread</em>.</p>
+        <div class="prose"><p>A jam game about making a sandwich: spread the sauce, stack the sandwich, and comment your score on itch.</p><p><strong>What I did:</strong> programmed the bread-stacking mechanic.</p></div>
+        <a class="btn main" href="https://vliege.itch.io/spreadbread" target="_blank" rel="noopener">Play in browser</a>
+      </div>
+    </section>
+
+    <section class="jam">
+      <div class="gal"><button class="shot" type="button" data-full="img/wisp-cover.jpg"><img src="img/wisp-cover.jpg" alt="Wisp title art: a small blue spirit" loading="lazy"></button></div>
+      <div>
+        <span class="kicker">Game jam</span>
+        <h2>Wisp</h2>
+        <p class="context">Made at a DAE game jam in September 2024 with a team of 4, for the theme <em>Nature always wins</em>.</p>
+        <div class="prose"><p>You're a tree spirit in a forest that is getting infested. Fight the sources of the infestation and plant trees that fight back against the infested areas.</p><p><strong>What I did:</strong> programmed the spreading mechanic.</p></div>
+        <a class="btn main" href="https://kaspervdv125.itch.io/wisp" target="_blank" rel="noopener">Download on itch.io</a>
+      </div>
+    </section>
+
+    <nav class="next" aria-label="Next project"><a class="back" href="#projects-list">← All projects</a><a class="nx" href="#game-art"><span>Next project</span><b>Game Art →</b></a></nav>
+  </div>
+</article>
+
+<!-- ================= GAME ART ================= -->
+<article class="view" id="game-art" data-view hidden>
+  <header class="bar"><div class="wrap"><a class="back" href="#projects-list">← All projects</a><a class="name" href="#home">Artjom <span>Tsernozjomov</span></a></div></header>
+  <div class="wrap">
+    <div class="p-head">
+      <span class="kicker">3D &amp; 2D art</span>
+      <h1>Game Art</h1>
+      <p class="sub">My focus is design, but the art courses taught me modeling, texturing, rigging and animation. Here is my art from the first two years, newest first.</p>
+    </div>
+
+    <section class="year">
+      <h2>Year 2</h2>
+      <div class="piece">
+        <div class="piece-head"><h3>Stylized village</h3><span>Game Art 3 · final exam · Unity</span><p>A stylized environment with a waterfall, cliffs and floating islands.</p></div>
+        <a class="video" href="https://youtu.be/9lL-3BGfOow" target="_blank" rel="noopener" data-yt="9lL-3BGfOow" style="margin-bottom:12px"><img src="img/ga3-exam-master.jpg" alt=""><div class="play"><span>Watch the video</span></div></a>
+        <div class="grid3">
+          <button class="shot" type="button" data-full="img/ga3-exam-1.jpg"><img src="img/ga3-exam-1.jpg" alt="Overview of the village and river" loading="lazy"></button>
+          <button class="shot" type="button" data-full="img/ga3-exam-2.jpg"><img src="img/ga3-exam-2.jpg" alt="Waterfall with buildings in the background" loading="lazy"></button>
+          <button class="shot" type="button" data-full="img/ga3-exam-3.jpg"><img src="img/ga3-exam-3.jpg" alt="Close-up of the waterfall and broken bridge" loading="lazy"></button>
+        </div>
+      </div>
+      <div class="piece">
+        <div class="piece-head"><h3>Fluffy Nature</h3><span>Game Art 3 · first assignment · Unity</span><p>A colourful nature scene with rivers, autumn trees and flower fields.</p></div>
+        <div class="grid2">
+          <button class="shot" type="button" data-full="img/ga3-fluffy-final.jpg"><img src="img/ga3-fluffy-final.jpg" alt="River winding through autumn trees" loading="lazy"></button>
+          <button class="shot" type="button" data-full="img/ga3-fluffy-1.jpg"><img src="img/ga3-fluffy-1.jpg" alt="Lake with a small island and pink trees" loading="lazy"></button>
+          <button class="shot" type="button" data-full="img/ga3-fluffy-2.jpg"><img src="img/ga3-fluffy-2.jpg" alt="Flower field at sunset" loading="lazy"></button>
+          <button class="shot" type="button" data-full="img/ga3-fluffy-3.jpg"><img src="img/ga3-fluffy-3.jpg" alt="Island in a river with autumn trees" loading="lazy"></button>
+        </div>
+      </div>
+      <div class="piece">
+        <div class="piece-head"><h3>Kart</h3><span>Game Art 2 · exam</span></div>
+        <div class="grid3">
+          <button class="shot" type="button" data-full="img/ga2-kart-1.jpg"><img src="img/ga2-kart-1.jpg" alt="Red kart with a carnival wheel seat, front view" loading="lazy"></button>
+          <button class="shot" type="button" data-full="img/ga2-kart-2.jpg"><img src="img/ga2-kart-2.jpg" alt="Kart rear view with dice engine" loading="lazy"></button>
+          <button class="shot" type="button" data-full="img/ga2-kart-3.jpg"><img src="img/ga2-kart-3.jpg" alt="Kart front close-up with slot machine hood" loading="lazy"></button>
+        </div>
+      </div>
+    </section>
+
+    <section class="year">
+      <h2>Year 1</h2>
+      <div class="piece">
+        <div class="piece-head"><h3>The Aetherium Emporium</h3><span>Game Art · exam · Maya</span><p>A stylized bazaar stall diorama with lanterns, tools and goods for sale.</p></div>
+        <div class="grid3">
+          <button class="shot" type="button" data-full="img/art/bazaar-1.jpg"><img src="img/art/bazaar-1.jpg" alt="Bazaar stall diorama from above" loading="lazy"></button>
+          <button class="shot" type="button" data-full="img/art/bazaar-2.jpg"><img src="img/art/bazaar-2.jpg" alt="Bazaar stall from the side" loading="lazy"></button>
+          <button class="shot" type="button" data-full="img/art/bazaar-3.jpg"><img src="img/art/bazaar-3.jpg" alt="Close-up of the stall with a street lamp" loading="lazy"></button>
+        </div>
+        <div class="row" style="margin-top:12px"><a class="btn" href="https://sketchfab.com/3d-models/the-aetherium-emporium-dae-bazaar-cf6fd4498c3241839703764521f74097" target="_blank" rel="noopener" data-sf="cf6fd4498c3241839703764521f74097">View in 3D</a></div>
+      </div>
+      <div class="piece">
+        <div class="piece-head"><h3>Exarch's Judgement</h3><span>Game Art · WeaponCraft · Maya</span><p>A stylized hammer with purple crystals.</p></div>
+        <div class="grid2">
+          <button class="shot" type="button" data-full="img/art/hammer-1.jpg"><img src="img/art/hammer-1.jpg" alt="Hammer with purple crystals, front view" loading="lazy"></button>
+          <button class="shot" type="button" data-full="img/art/hammer-2.jpg"><img src="img/art/hammer-2.jpg" alt="Hammer with purple crystals, side view" loading="lazy"></button>
+        </div>
+        <div class="row" style="margin-top:12px"><a class="btn" href="https://sketchfab.com/3d-models/weaponcraft-game-art-1-exarchs-judgement-664ee8cbd85e49c2829f0c1e79c78923" target="_blank" rel="noopener" data-sf="664ee8cbd85e49c2829f0c1e79c78923">View in 3D</a></div>
+      </div>
+      <div class="piece">
+        <div class="piece-head"><h3>2D characters</h3><span>2D for Games 2</span><p>Character designs and an illustrated scene.</p></div>
+        <div class="grid2">
+          <button class="shot" type="button" data-full="img/art/chars-2d.jpg"><img src="img/art/chars-2d.jpg" alt="Three fantasy characters: a wizard, a lynx and a moose warrior" loading="lazy"></button>
+          <button class="shot" type="button" data-full="img/art/scene-2d.jpg"><img src="img/art/scene-2d.jpg" alt="Illustration of an archer and a warrior facing each other" loading="lazy"></button>
+        </div>
+      </div>
+      <div class="piece sf-more">
+        <div class="piece-head"><h3>More in 3D on Sketchfab</h3><p>Older models you can rotate and inspect.</p></div>
+        <div class="row">
+          <a class="btn" href="https://sketchfab.com/3d-models/dae-diorama-by-the-ocean-6f6a826291804e2abe756b2235006b59" target="_blank" rel="noopener" data-sf="6f6a826291804e2abe756b2235006b59">By the Ocean · diorama</a>
+          <a class="btn" href="https://sketchfab.com/3d-models/dae-5-finished-props-by-the-ocean-e07e8e5916cf4f74afda2315867bbd7f" target="_blank" rel="noopener" data-sf="e07e8e5916cf4f74afda2315867bbd7f">By the Ocean · props</a>
+          <a class="btn main" href="https://sketchfab.com/tsernozjomovartjom" target="_blank" rel="noopener">My Sketchfab profile</a>
+        </div>
+      </div>
+    </section>
+
+    <nav class="next" aria-label="Next project"><a class="back" href="#projects-list">← All projects</a><a class="nx" href="#mirror-hop"><span>Back to the start</span><b>Mirror Hop →</b></a></nav>
+  </div>
+</article>
+
+<div class="player" id="player" hidden role="dialog" aria-modal="true" aria-label="Video player">
+  <div class="player-box">
+    <div class="player-top"><b id="player-title"></b><button type="button" id="player-close">Close</button></div>
+    <div class="player-frame" id="player-frame"></div>
+    <p class="player-alt">Not playing? <a id="player-link" href="#" target="_blank" rel="noopener">Open it in a new tab</a></p>
+  </div>
+</div>
+<div class="lb" id="lb" hidden><button type="button" id="lb-close">Close</button><img id="lb-img" alt=""><p id="lb-cap"></p></div>
+
+<script>
+(function(){
+  const views=[...document.querySelectorAll('[data-view]')];
+  const home=document.getElementById('home');
+  const homeAnchors=['projects-list','about-me','contact-me'];
+  let lastHomeScroll=0;
+  function route(){
+    const h=(location.hash||'#home').slice(1);
+    const page=views.find(v=>v.id===h && v!==home);
+    if(page){
+      if(!home.hidden) lastHomeScroll=scrollY;
+      views.forEach(v=>v.hidden=(v!==page));
+      window.scrollTo(0,0);
+      page.querySelectorAll('video').forEach(v=>{try{const p=v.play(); if(p) p.catch(()=>{})}catch(e){}});
+    }else{
+      const wasHidden=home.hidden;
+      views.forEach(v=>v.hidden=(v!==home));
+      if(homeAnchors.includes(h)){ const el=document.getElementById(h); if(el) el.scrollIntoView(); }
+      else if(h==='home'){ window.scrollTo(0,0); }
+      else if(wasHidden) window.scrollTo(0,lastHomeScroll);
+    }
+  }
+  addEventListener('hashchange',route); route();
+
+  const lb=document.getElementById('lb'), li=document.getElementById('lb-img'), lc=document.getElementById('lb-cap');
+  document.addEventListener('click',e=>{
+    const b=e.target.closest('.shot'); if(!b) return;
+    const img=b.querySelector('img'); li.src=b.dataset.full; li.alt=img.alt; lc.textContent=img.alt; lb.hidden=false;
+  });
+  const close=()=>{lb.hidden=true; li.removeAttribute('src');};
+  lb.addEventListener('click',close);
+  addEventListener('keydown',e=>{ if(e.key==='Escape' && !lb.hidden) close(); });
+
+  const pl=document.getElementById('player'), pf=document.getElementById('player-frame'), pt=document.getElementById('player-title'), pk=document.getElementById('player-link');
+  function openPlayer(src, title, link){
+    pf.innerHTML=''; const f=document.createElement('iframe'); f.src=src; f.title=title;
+    f.allow='autoplay; fullscreen; encrypted-media; picture-in-picture; xr-spatial-tracking'; f.allowFullscreen=true;
+    pf.appendChild(f); pt.textContent=title; pk.href=link; pl.hidden=false;
+  }
+  function closePlayer(){ pl.hidden=true; pf.innerHTML=''; }
+  document.addEventListener('click',e=>{
+    const y=e.target.closest('[data-yt]'), k=e.target.closest('[data-sf]');
+    if(y){ e.preventDefault(); const t=(y.querySelector('b')||y.querySelector('.play span')||{}).textContent||'Video';
+      openPlayer('https://www.youtube-nocookie.com/embed/'+y.dataset.yt+'?autoplay=1&rel=0', t, y.href); }
+    else if(k){ e.preventDefault(); openPlayer('https://sketchfab.com/models/'+k.dataset.sf+'/embed?autostart=1&ui_infos=0&ui_watermark=0', k.textContent, k.href); }
+  });
+  document.getElementById('player-close').addEventListener('click',closePlayer);
+  pl.addEventListener('click',e=>{ if(e.target===pl) closePlayer(); });
+  addEventListener('keydown',e=>{ if(e.key==='Escape' && !pl.hidden) closePlayer(); });
+  addEventListener('hashchange',closePlayer);
+
+  const c=document.getElementById('copy');
+  c.addEventListener('click',()=>{
+    const done=()=>{c.textContent='Copied';setTimeout(()=>c.textContent='Copy',1600)};
+    const sel=()=>{const r=document.createRange();r.selectNodeContents(document.getElementById('mail'));const s=getSelection();s.removeAllRanges();s.addRange(r);c.textContent='Selected';setTimeout(()=>c.textContent='Copy',1600)};
+    try{navigator.clipboard.writeText('chernozemov96@gmail.com').then(done,sel)}catch(e){sel()}
+  });
+})();
+</script>
+
+</body>
+</html>
